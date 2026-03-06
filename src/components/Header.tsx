@@ -32,7 +32,7 @@ const Header = () => {
             <button
               key={item}
               onClick={() => scrollTo(item)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 font-body"
+              className="text-sm text-muted-foreground hover:text-accent transition-colors duration-300 font-body"
             >
               {item}
             </button>
@@ -41,20 +41,28 @@ const Header = () => {
 
         <div className="flex items-center gap-4">
           {/* Mode toggle */}
-          <button
-            onClick={toggleMode}
-            className="flex items-center gap-2 text-xs font-display tracking-widest uppercase"
-          >
-            <span className={mode === "systems" ? "text-foreground" : "text-muted-foreground"}>Systems</span>
-            <div className="relative w-10 h-5 rounded-full bg-secondary border border-border">
-              <motion.div
-                className="absolute top-0.5 w-4 h-4 rounded-full bg-foreground"
-                animate={{ left: mode === "systems" ? "2px" : "18px" }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              />
-            </div>
-            <span className={mode === "creative" ? "text-foreground" : "text-muted-foreground"}>Creative</span>
-          </button>
+          <div className="flex items-center rounded-full border border-border bg-secondary/50 overflow-hidden">
+            <button
+              onClick={() => mode !== "systems" && toggleMode()}
+              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${
+                mode === "systems"
+                  ? "bg-accent text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Systems
+            </button>
+            <button
+              onClick={() => mode !== "creative" && toggleMode()}
+              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${
+                mode === "creative"
+                  ? "bg-accent text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Creative
+            </button>
+          </div>
 
           {/* Mobile menu */}
           <button className="md:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -74,7 +82,7 @@ const Header = () => {
             <button
               key={item}
               onClick={() => scrollTo(item)}
-              className="block w-full text-left px-6 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="block w-full text-left px-6 py-3 text-sm text-muted-foreground hover:text-accent transition-colors"
             >
               {item}
             </button>

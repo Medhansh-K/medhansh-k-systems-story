@@ -37,7 +37,7 @@ const Projects = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-muted-foreground text-xs tracking-widest uppercase font-display mb-4">Projects</p>
+          <p className="text-accent text-xs tracking-widest uppercase font-display mb-4">Projects</p>
           <h2 className={`text-3xl md:text-5xl font-bold mb-16 ${mode === "creative" ? "font-creative" : "font-display"}`}>
             Things I've built.
           </h2>
@@ -50,7 +50,7 @@ const Projects = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.15 * i, duration: 0.6 }}
-              className="group gradient-card border border-border rounded-xl p-8 hover:border-muted-foreground/30 transition-all duration-500 hover:glow-shadow flex flex-col"
+              className="group gradient-card border border-border rounded-xl p-8 hover:border-accent/30 transition-all duration-500 hover:glow-shadow flex flex-col"
             >
               <h3 className="text-xl font-display font-semibold text-foreground mb-3">{project.name}</h3>
               <p className="text-muted-foreground text-sm font-body mb-4 leading-relaxed">{project.description}</p>
@@ -58,17 +58,17 @@ const Projects = () => {
 
               <div className="flex flex-wrap gap-2 mb-8 mt-auto">
                 {project.stack.map((tech) => (
-                  <span key={tech} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground font-display">
+                  <span key={tech} className="text-xs px-2.5 py-1 rounded-full bg-accent/10 text-accent font-display">
                     {tech}
                   </span>
                 ))}
               </div>
 
               <div className="flex gap-3">
-                <button className="flex items-center gap-1.5 text-xs font-display text-foreground border border-border px-4 py-2 rounded-md hover:bg-secondary transition-colors">
+                <button className="flex items-center gap-1.5 text-xs font-display text-accent border border-accent/30 px-4 py-2 rounded-md hover:bg-accent/10 transition-colors">
                   View Project <ExternalLink size={12} />
                 </button>
-                <button className="text-xs font-display text-muted-foreground hover:text-foreground transition-colors px-4 py-2">
+                <button className="text-xs font-display text-muted-foreground hover:text-accent transition-colors px-4 py-2">
                   Demo
                 </button>
               </div>

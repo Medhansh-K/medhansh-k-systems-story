@@ -40,7 +40,7 @@ const Creative = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-muted-foreground text-xs tracking-widest uppercase font-display mb-4">Creative</p>
+          <p className="text-accent text-xs tracking-widest uppercase font-display mb-4">Creative</p>
           <h2 className={`text-3xl md:text-5xl font-bold mb-16 ${mode === "creative" ? "font-creative" : "font-display"}`}>
             {mode === "creative" ? "The other side of thinking." : "Beyond the code."}
           </h2>
@@ -53,13 +53,13 @@ const Creative = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.15 * i, duration: 0.6 }}
-              className={`group border border-border rounded-xl overflow-hidden hover:border-muted-foreground/30 transition-all duration-500 ${
+              className={`group border border-border rounded-xl overflow-hidden hover:border-accent/30 transition-all duration-500 ${
                 mode === "creative" ? "gradient-subtle p-10" : "gradient-card p-8"
               }`}
             >
               <div className="flex items-center gap-3 mb-4">
-                <work.icon size={18} className="text-muted-foreground" />
-                <span className="text-xs tracking-widest uppercase text-muted-foreground font-display">{work.category}</span>
+                <work.icon size={18} className="text-accent" />
+                <span className="text-xs tracking-widest uppercase text-accent font-display">{work.category}</span>
               </div>
 
               <h3 className={`text-xl font-semibold text-foreground mb-3 ${mode === "creative" ? "font-creative text-2xl" : "font-display"}`}>
@@ -67,7 +67,7 @@ const Creative = () => {
               </h3>
               <p className="text-muted-foreground text-sm font-body leading-relaxed mb-6">{work.description}</p>
 
-              <button className="text-xs font-display text-foreground border border-border px-4 py-2 rounded-md hover:bg-secondary transition-colors">
+              <button className="text-xs font-display text-accent border border-accent/30 px-4 py-2 rounded-md hover:bg-accent/10 transition-colors">
                 {work.action}
               </button>
             </motion.div>
