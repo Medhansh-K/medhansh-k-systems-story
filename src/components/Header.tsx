@@ -3,7 +3,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const navItems = ["About", "Projects", "Creative", "Journey", "Contact"];
+const getNavItems = (mode: string) => {
+  if (mode === "systems") return ["About", "Projects", "Journey", "Contact"];
+  return ["About", "Creative", "Journey", "Contact"];
+};
 
 const Header = () => {
   const { mode, toggleMode } = useMode();
@@ -28,7 +31,7 @@ const Header = () => {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
+          {getNavItems(mode).map((item) => (
             <button
               key={item}
               onClick={() => scrollTo(item)}
@@ -44,21 +47,19 @@ const Header = () => {
           <div className="flex items-center rounded-full border border-border bg-secondary/50 overflow-hidden">
             <button
               onClick={() => mode !== "systems" && toggleMode()}
-              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${
-                mode === "systems"
-                  ? "bg-accent text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "systems"
+                ? "bg-accent text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               Systems
             </button>
             <button
               onClick={() => mode !== "creative" && toggleMode()}
-              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${
-                mode === "creative"
-                  ? "bg-accent text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "creative"
+                ? "bg-accent text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               Creative
             </button>
@@ -78,7 +79,7 @@ const Header = () => {
           animate={{ opacity: 1, height: "auto" }}
           className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-xl"
         >
-          {navItems.map((item) => (
+          {getNavItems(mode).map((item) => (
             <button
               key={item}
               onClick={() => scrollTo(item)}

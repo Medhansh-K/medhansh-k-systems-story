@@ -5,22 +5,25 @@ import { ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    name: "Datalis",
-    description: "AI data intelligence platform transforming raw datasets into insight reports.",
-    idea: "Turning unstructured data into actionable intelligence through AI-powered analysis pipelines.",
-    stack: ["Python", "LangChain", "React", "PostgreSQL"],
+    name: "UNIDATA",
+    description: "A decentralized marketplace for AI datasets and models built on BSC Testnet, enabling users to upload, purchase, and trade AI datasets using blockchain technology.",
+    idea: "Bridging the gap between AI data needs and decentralized ownership through on-chain marketplace infrastructure.",
+    stack: ["Solidity", "BSC", "React", "IPFS"],
+    link: "",
   },
   {
-    name: "Dabby",
-    description: "Financial intelligence workspace integrating business data sources with conversational AI analysis.",
-    idea: "Making financial data accessible through natural language interfaces.",
-    stack: ["TypeScript", "OpenAI", "Next.js", "Supabase"],
+    name: "Terramind AI",
+    description: "AI platform for real estate investors to discover their best investment options in real estate through intelligent analysis and recommendations.",
+    idea: "Making real estate investment decisions smarter with AI-driven property intelligence.",
+    stack: ["Python", "AI/ML", "Next.js", "Data Pipelines"],
+    link: "",
   },
   {
-    name: "AI Audit Assistant",
-    description: "Agent-based system generating structured audit reports from compliance documents.",
-    idea: "Automating complex compliance workflows with multi-agent AI architecture.",
-    stack: ["Python", "GPT-4", "FastAPI", "React"],
+    name: "BloomNet",
+    description: "A distributed semi-decentralised fractal-based data storage system designed for resilient and efficient data management.",
+    idea: "Rethinking data storage through fractal architectures that balance decentralization with performance.",
+    stack: ["Distributed Systems", "Fractal Algorithms", "Node.js", "P2P"],
+    link: "",
   },
 ];
 
@@ -64,14 +67,18 @@ const Projects = () => {
                 ))}
               </div>
 
-              <div className="flex gap-3">
-                <button className="flex items-center gap-1.5 text-xs font-display text-accent border border-accent/30 px-4 py-2 rounded-md hover:bg-accent/10 transition-colors">
-                  View Project <ExternalLink size={12} />
-                </button>
-                <button className="text-xs font-display text-muted-foreground hover:text-accent transition-colors px-4 py-2">
-                  Demo
-                </button>
-              </div>
+              {project.link && (
+                <div className="flex gap-3">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs font-display text-accent border border-accent/30 px-4 py-2 rounded-md hover:bg-accent/10 transition-colors"
+                  >
+                    View Project <ExternalLink size={12} />
+                  </a>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>

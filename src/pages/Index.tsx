@@ -16,17 +16,15 @@ const PortfolioContent = () => {
     <>
       <About />
       <Projects />
-      <Creative />
       <Journey />
     </>
   );
 
   const creativeOrder = (
     <>
-      <Creative />
       <About />
+      <Creative />
       <Journey />
-      <Projects />
     </>
   );
 
