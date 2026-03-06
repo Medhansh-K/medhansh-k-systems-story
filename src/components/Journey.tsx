@@ -25,14 +25,14 @@ const Journey = () => {
           transition={{ duration: 0.7 }}
           className="max-w-3xl mx-auto"
         >
-          <p className="text-muted-foreground text-xs tracking-widest uppercase font-display mb-4">Journey</p>
+          <p className="text-accent text-xs tracking-widest uppercase font-display mb-4">Journey</p>
           <h2 className={`text-3xl md:text-5xl font-bold mb-16 ${mode === "creative" ? "font-creative" : "font-display"}`}>
             Not a resume. An exploration.
           </h2>
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border" />
+            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-accent/20" />
 
             <div className="space-y-12">
               {milestones.map((m, i) => (
@@ -44,9 +44,9 @@ const Journey = () => {
                   className="relative pl-10"
                 >
                   {/* Dot */}
-                  <div className="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full border-2 border-muted-foreground/40 bg-background" />
+                  <div className="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full border-2 border-accent/40 bg-background" />
 
-                  <span className="text-xs text-muted-foreground font-display tracking-widest">{m.year}</span>
+                  <span className="text-xs text-accent font-display tracking-widest">{m.year}</span>
                   <h3 className={`text-lg font-semibold text-foreground mt-1 ${mode === "creative" ? "font-creative" : "font-display"}`}>
                     {m.title}
                   </h3>

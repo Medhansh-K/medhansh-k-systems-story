@@ -15,20 +15,20 @@ const Contact = () => {
           transition={{ duration: 0.7 }}
           className="max-w-2xl mx-auto text-center"
         >
-          <p className="text-muted-foreground text-xs tracking-widest uppercase font-display mb-4">Contact</p>
+          <p className="text-accent text-xs tracking-widest uppercase font-display mb-4">Contact</p>
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-6">Let's connect.</h2>
           <p className="text-muted-foreground font-body mb-10">
             Whether it's about building something together, exchanging ideas, or just saying hello.
           </p>
 
           <div className="flex justify-center gap-6">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 border border-border rounded-md text-sm font-display text-foreground hover:bg-secondary transition-colors">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
               <Github size={16} /> GitHub
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 border border-border rounded-md text-sm font-display text-foreground hover:bg-secondary transition-colors">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
               <Linkedin size={16} /> LinkedIn
             </a>
-            <a href="mailto:hello@medhansh.dev" className="flex items-center gap-2 px-5 py-3 border border-border rounded-md text-sm font-display text-foreground hover:bg-secondary transition-colors">
+            <a href="mailto:hello@medhansh.dev" className="flex items-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
               <Mail size={16} /> Email
             </a>
           </div>
