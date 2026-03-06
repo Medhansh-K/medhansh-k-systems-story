@@ -1,14 +1,60 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { ModeProvider, useMode } from "@/contexts/ModeContext";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import Projects from "@/components/Projects";
+import Creative from "@/components/Creative";
+import Journey from "@/components/Journey";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
+import { AnimatePresence, motion } from "framer-motion";
 
-const Index = () => {
+const PortfolioContent = () => {
+  const { mode } = useMode();
+
+  const systemsOrder = (
+    <>
+      <About />
+      <Projects />
+      <Creative />
+      <Journey />
+    </>
+  );
+
+  const creativeOrder = (
+    <>
+      <Creative />
+      <About />
+      <Journey />
+      <Projects />
+    </>
+  );
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <Hero />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={mode}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          {mode === "systems" ? systemsOrder : creativeOrder}
+        </motion.div>
+      </AnimatePresence>
+      <Contact />
+      <Footer />
     </div>
   );
 };
+
+const Index = () => (
+  <ModeProvider>
+    <PortfolioContent />
+  </ModeProvider>
+);
 
 export default Index;
