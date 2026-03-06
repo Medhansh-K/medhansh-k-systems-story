@@ -9,14 +9,14 @@ const projects = [
     description: "A decentralized marketplace for AI datasets and models built on BSC Testnet, enabling users to upload, purchase, and trade AI datasets using blockchain technology.",
     idea: "Bridging the gap between AI data needs and decentralized ownership through on-chain marketplace infrastructure.",
     stack: ["Solidity", "BSC", "React", "IPFS"],
-    link: "",
+    link: "https://github.com/Medhansh-K/UNIDATA",
   },
   {
     name: "Terramind AI",
     description: "AI platform for real estate investors to discover their best investment options in real estate through intelligent analysis and recommendations.",
     idea: "Making real estate investment decisions smarter with AI-driven property intelligence.",
     stack: ["Python", "AI/ML", "Next.js", "Data Pipelines"],
-    link: "",
+    link: "https://github.com/Medhansh-K/thriftrate",
   },
   {
     name: "BloomNet",
