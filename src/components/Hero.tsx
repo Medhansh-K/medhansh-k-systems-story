@@ -77,7 +77,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.7 }}
-            className={`text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 ${
+            className={`text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 sm:mb-8 ${
               mode === "creative" ? "font-creative" : "font-display"
             }`}
           >
