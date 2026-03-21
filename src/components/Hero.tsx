@@ -103,7 +103,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-muted-foreground text-base md:text-lg max-w-2xl leading-relaxed mb-4 font-body"
+            className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed mb-4 font-body"
           >
             {mode === "systems"
               ? "AI engineer and founder building tools that automate insight, reasoning, and decision-making."
