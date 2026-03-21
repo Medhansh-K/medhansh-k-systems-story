@@ -21,14 +21,14 @@ const Contact = () => {
             Whether it's about building something together, exchanging ideas, or just saying hello.
           </p>
 
-          <div className="flex justify-center gap-6">
-            <a href="https://github.com/Medhansh-K" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-6">
+            <a href="https://github.com/Medhansh-K" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
               <Github size={16} /> GitHub
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
               <Linkedin size={16} /> LinkedIn
             </a>
-            <a href="mailto:imperialion45@gmail.com" className="flex items-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
+            <a href="mailto:imperialion45@gmail.com" className="flex items-center justify-center gap-2 px-5 py-3 border border-accent/30 rounded-md text-sm font-display text-accent hover:bg-accent/10 transition-colors">
               <Mail size={16} /> Email
             </a>
           </div>
