@@ -58,7 +58,7 @@ const Hero = () => {
         </motion.div>
       ))}
 
-      <div className="relative z-10 container mx-auto px-6 pt-24">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-20 sm:pt-24">
         <div className="max-w-3xl">
           <motion.p
             key={`tagline-${mode}`}
@@ -77,7 +77,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.7 }}
-            className={`text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 ${
+            className={`text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 sm:mb-8 ${
               mode === "creative" ? "font-creative" : "font-display"
             }`}
           >
@@ -103,7 +103,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-muted-foreground text-base md:text-lg max-w-2xl leading-relaxed mb-4 font-body"
+            className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed mb-4 font-body"
           >
             {mode === "systems"
               ? "AI engineer and founder building tools that automate insight, reasoning, and decision-making."
@@ -115,7 +115,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.6 }}
-            className="flex flex-wrap gap-4 mt-10"
+            className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-8 sm:mt-10"
           >
             <button
               onClick={() => document.getElementById(mode === "systems" ? "projects" : "creative")?.scrollIntoView({ behavior: "smooth" })}

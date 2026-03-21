@@ -47,7 +47,7 @@ const Header = () => {
           <div className="flex items-center rounded-full border border-border bg-secondary/50 overflow-hidden">
             <button
               onClick={() => mode !== "systems" && toggleMode()}
-              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "systems"
+              className={`px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "systems"
                 ? "bg-accent text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground"
                 }`}
@@ -56,7 +56,7 @@ const Header = () => {
             </button>
             <button
               onClick={() => mode !== "creative" && toggleMode()}
-              className={`px-4 py-1.5 text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "creative"
+              className={`px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "creative"
                 ? "bg-accent text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground"
                 }`}

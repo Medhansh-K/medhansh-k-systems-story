@@ -36,7 +36,7 @@ const Creative = () => {
   const { mode } = useMode();
 
   return (
-    <section id="creative" className="py-32 relative" ref={ref}>
+    <section id="creative" className="py-16 md:py-32 relative" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
