@@ -82,30 +82,20 @@ const About = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="grid gap-3 md:gap-4"
-            style={{
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gridTemplateRows: "auto auto",
-              gridTemplateAreas: `
-                "bio bio card0 card1"
-                "bio bio card2 card3"
-              `,
-            }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
           >
-            {/* Bio tile — 2 cols × 2 rows */}
+            {/* Bio tile — full width on mobile, 2 cols × 2 rows on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="gradient-card border border-border rounded-2xl p-8 md:p-10 flex flex-col justify-between"
-              style={{ gridArea: "bio" }}
+              className="col-span-2 md:row-span-2 gradient-card border border-border rounded-2xl p-6 md:p-10 flex flex-col justify-between"
             >
               <div className="space-y-5">
                 {bio.paragraphs.map((text, i) => (
                   <p
                     key={i}
-                    className={`text-base md:text-[17px] leading-[1.85] font-body ${i === 0 ? "text-secondary-foreground" : "text-muted-foreground"
-                      }`}
+                    className={`text-sm md:text-[17px] leading-[1.85] font-body ${i === 0 ? "text-secondary-foreground" : "text-muted-foreground"}`}
                   >
                     {text}
                   </p>
@@ -128,20 +118,19 @@ const About = () => {
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.25 + i * 0.1, duration: 0.5, ease: "easeOut" }}
-                className="group relative gradient-card border border-border rounded-2xl p-5 md:p-6 flex flex-col items-center justify-center text-center gap-3 hover:border-accent/40 transition-all duration-300 hover:glow-shadow aspect-square"
-                style={{ gridArea: `card${i}` }}
+                className="group relative gradient-card border border-border rounded-2xl p-5 md:p-6 flex flex-col items-center justify-center text-center gap-2 md:gap-3 hover:border-accent/40 transition-all duration-300 hover:glow-shadow aspect-square"
               >
                 <div
                   className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                   style={{ background: "radial-gradient(circle at center, hsl(var(--accent) / 0.05) 0%, transparent 70%)" }}
                 />
-                <span className="text-3xl md:text-4xl relative z-10 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl md:text-4xl relative z-10 group-hover:scale-110 transition-transform duration-300">
                   {item.icon}
                 </span>
-                <span className="text-sm md:text-base font-display text-foreground relative z-10 font-medium">
+                <span className="text-xs md:text-base font-display text-foreground relative z-10 font-medium">
                   {item.label}
                 </span>
-                <span className="text-[11px] md:text-xs text-muted-foreground relative z-10 leading-snug">
+                <span className="text-[10px] md:text-xs text-muted-foreground relative z-10 leading-snug">
                   {item.desc}
                 </span>
               </motion.div>
