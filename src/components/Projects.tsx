@@ -33,7 +33,7 @@ const Projects = () => {
   const { mode } = useMode();
 
   return (
-    <section id="projects" className="py-32 relative" ref={ref}>
+    <section id="projects" className="py-16 md:py-32 relative" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

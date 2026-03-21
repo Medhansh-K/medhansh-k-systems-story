@@ -45,7 +45,7 @@ const About = () => {
   const bio = isCreative ? creativeBio : systemsBio;
 
   return (
-    <section id="about" className="py-32 relative overflow-hidden" ref={ref}>
+    <section id="about" className="py-16 md:py-32 relative overflow-hidden" ref={ref}>
       {/* Ambient glow */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full opacity-[0.03] pointer-events-none"
