@@ -2,6 +2,7 @@ import { useMode } from "@/contexts/ModeContext";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const getNavItems = (mode: string) => {
   if (mode === "systems") return ["About", "Projects", "Journey", "Contact"];
@@ -11,9 +12,16 @@ const getNavItems = (mode: string) => {
 const Header = () => {
   const { mode, toggleMode } = useMode();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (item: string) => {
+    const id = item.toLowerCase();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(`/#${id}`);
+    }
     setMobileOpen(false);
   };
 
@@ -25,7 +33,7 @@ const Header = () => {
       className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/80"
     >
       <div className="container mx-auto flex items-center justify-between h-16 px-6">
-        <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="font-display text-lg font-semibold tracking-tight text-foreground">
+        <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="font-display text-lg font-semibold tracking-tight text-foreground flex items-center gap-2">
           Medhansh K
         </button>
 
@@ -47,19 +55,21 @@ const Header = () => {
           <div className="flex items-center rounded-full border border-border bg-secondary/50 overflow-hidden">
             <button
               onClick={() => mode !== "systems" && toggleMode()}
-              className={`px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "systems"
-                ? "bg-accent text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-                }`}
+              className={`px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${
+                mode === "systems"
+                  ? "bg-accent text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               Systems
             </button>
             <button
               onClick={() => mode !== "creative" && toggleMode()}
-              className={`px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${mode === "creative"
-                ? "bg-accent text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-                }`}
+              className={`px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-display tracking-widest uppercase transition-all duration-300 rounded-full ${
+                mode === "creative"
+                  ? "bg-accent text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               Creative
             </button>

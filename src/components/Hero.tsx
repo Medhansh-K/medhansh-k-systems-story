@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useMode } from "@/contexts/ModeContext";
 import { Brain, Cpu, Database, Network, Workflow, Bot, Pencil, BookOpen, Heart, StickyNote, Palette, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const systemsIcons = [
   { Icon: Brain, x: "10%", y: "20%", delay: 0 },
@@ -65,11 +66,15 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-accent text-sm tracking-[0.3em] uppercase font-display mb-6"
+            className="text-accent text-sm tracking-[0.3em] uppercase font-display mb-6 flex items-center gap-2"
           >
-            {mode === "systems"
-              ? "Systems. Data. Intelligence."
-              : "Stories. Curiosity. Exploration."}
+            {mode === "systems" ? (
+              "Systems. Data. Intelligence."
+            ) : (
+              <>
+                <span>Stories. Curiosity. Exploration.</span>
+              </>
+            )}
           </motion.p>
 
           <motion.h1
@@ -107,7 +112,7 @@ const Hero = () => {
           >
             {mode === "systems"
               ? "AI engineer and founder building tools that automate insight, reasoning, and decision-making."
-              : "Builder by discipline. Creator by instinct."}
+              : "Author of 'When Time Stood Still'. Builder by discipline, creator by instinct."}
           </motion.p>
 
           <motion.div
@@ -117,18 +122,37 @@ const Hero = () => {
             transition={{ delay: 0.9, duration: 0.6 }}
             className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-8 sm:mt-10"
           >
-            <button
-              onClick={() => document.getElementById(mode === "systems" ? "projects" : "creative")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-6 py-3 bg-accent text-primary-foreground font-display text-sm font-medium rounded-md hover:opacity-90 transition-opacity"
-            >
-              {mode === "systems" ? "Explore Systems" : "Explore Canvas"}
-            </button>
-            <button
-              onClick={() => document.getElementById(mode === "systems" ? "about" : "journey")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-6 py-3 border border-accent/40 text-accent font-display text-sm font-medium rounded-md hover:bg-accent/10 transition-colors"
-            >
-              {mode === "systems" ? "View Projects" : "View Journey"}
-            </button>
+            {mode === "creative" ? (
+              <>
+                <Link
+                  to="/book"
+                  className="px-6 py-3 bg-accent text-primary-foreground font-display text-sm font-semibold rounded-md hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-accent/20"
+                >
+                  <BookOpen size={16} /> Read Book: When Time Stood Still
+                </Link>
+                <button
+                  onClick={() => document.getElementById("creative")?.scrollIntoView({ behavior: "smooth" })}
+                  className="px-6 py-3 border border-accent/40 text-accent font-display text-sm font-medium rounded-md hover:bg-accent/10 transition-colors"
+                >
+                  Explore Canvas
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+                  className="px-6 py-3 bg-accent text-primary-foreground font-display text-sm font-medium rounded-md hover:opacity-90 transition-opacity"
+                >
+                  Explore Systems
+                </button>
+                <button
+                  onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+                  className="px-6 py-3 border border-accent/40 text-accent font-display text-sm font-medium rounded-md hover:bg-accent/10 transition-colors"
+                >
+                  View Projects
+                </button>
+              </>
+            )}
           </motion.div>
         </div>
       </div>
