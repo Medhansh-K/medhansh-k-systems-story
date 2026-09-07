@@ -7,24 +7,29 @@ import Index from "./pages/Index";
 import BookReader from "./pages/BookReader";
 import BloomNetPaper from "./pages/BloomNetPaper";
 import NotFound from "./pages/NotFound";
+import { AudiobookProvider } from "@/contexts/AudiobookContext";
+import { SpotifyAudioPlayer } from "@/components/SpotifyAudioPlayer";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/book" element={<BookReader />} />
-          <Route path="/book/:chapterId" element={<BookReader />} />
-          <Route path="/bloomnet" element={<BloomNetPaper />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AudiobookProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/book" element={<BookReader />} />
+            <Route path="/book/:chapterId" element={<BookReader />} />
+            <Route path="/bloomnet" element={<BloomNetPaper />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <SpotifyAudioPlayer />
+        </BrowserRouter>
+      </AudiobookProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -20,11 +20,15 @@ import {
   VolumeX,
   Book,
   Scroll,
+  Play,
+  Pause,
+  Headphones,
 } from "lucide-react";
 import { bookData, Chapter, Paragraph } from "@/data/bookData";
 import { Slider } from "@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
+import { useAudiobook } from "@/contexts/AudiobookContext";
 
 type ThemeMode = "dark" | "sepia" | "light" | "oled";
 type FontStyle = "serif" | "sans" | "mono";
@@ -41,7 +45,6 @@ const playPageFlipSound = () => {
     const data = buffer.getChannelData(0);
 
     for (let i = 0; i < bufferSize; i++) {
-      // Exponential decay white noise to simulate paper slide
       const decay = Math.exp(-i / (bufferSize * 0.3));
       data[i] = (Math.random() * 2 - 1) * decay;
     }
@@ -71,6 +74,14 @@ const playPageFlipSound = () => {
 const BookReader: React.FC = () => {
   const { chapterId } = useParams<{ chapterId?: string }>();
   const navigate = useNavigate();
+
+  const {
+    isPlaying: isAudioPlaying,
+    currentChapterIndex: audioChapterIdx,
+    currentParagraphIndex: audioParaIdx,
+    togglePlay: toggleAudioPlay,
+    seekToParagraph,
+  } = useAudiobook();
 
   // Core state
   const [currentChapterIndex, setCurrentChapterIndex] = useState<number>(0);
@@ -122,9 +133,35 @@ const BookReader: React.FC = () => {
     }
   }, [chapterId]);
 
+  // Sync reader view when audio narration changes paragraph
+  useEffect(() => {
+    if (isAudioPlaying) {
+      if (audioChapterIdx !== currentChapterIndex) {
+        setCurrentChapterIndex(audioChapterIdx);
+        navigate(`/book/${bookData.chapters[audioChapterIdx].id}`);
+      }
+
+      // Calculate which page contains the audio paragraph
+      const pages = getPagesForChapter(bookData.chapters[audioChapterIdx]);
+      const activePara = bookData.chapters[audioChapterIdx].paragraphs[audioParaIdx];
+
+      if (activePara) {
+        const pageIdx = pages.findIndex((page) => page.some((p) => p.id === activePara.id));
+        if (pageIdx !== -1 && pageIdx !== currentPageIndex) {
+          setCurrentPageIndex(pageIdx);
+        }
+
+        if (viewMode === "scroll") {
+          const el = document.getElementById(activePara.id);
+          el?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+    }
+  }, [isAudioPlaying, audioChapterIdx, audioParaIdx]);
+
   // Scroll to top on page/chapter change in scroll mode
   useEffect(() => {
-    if (viewMode === "scroll") {
+    if (viewMode === "scroll" && !isAudioPlaying) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [currentChapterIndex, currentPageIndex, viewMode]);
@@ -199,7 +236,7 @@ const BookReader: React.FC = () => {
 
   const currentChapter: Chapter = bookData.chapters[currentChapterIndex] || bookData.chapters[0];
 
-  // Helper to chunk chapter paragraphs into pages (~3 paragraphs per page for clean book layout)
+  // Helper to chunk chapter paragraphs into pages
   const getPagesForChapter = (ch: Chapter): Paragraph[][] => {
     const pages: Paragraph[][] = [];
     let currentPage: Paragraph[] = [];
@@ -437,6 +474,22 @@ const BookReader: React.FC = () => {
 
           {/* Right Controls */}
           <div className="flex items-center gap-1 sm:gap-2">
+            {/* Play Narration button in Header */}
+            <button
+              onClick={() => {
+                if (!isAudioPlaying) {
+                  seekToParagraph(currentChapterIndex, 0);
+                } else {
+                  toggleAudioPlay();
+                }
+              }}
+              className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black text-xs font-bold flex items-center gap-1.5 shadow-md transition-all hover:scale-105"
+              title={isAudioPlaying ? "Pause Audio Narration" : "Listen to Story Narration"}
+            >
+              {isAudioPlaying ? <Pause size={13} fill="currentColor" /> : <Headphones size={13} />}
+              <span className="hidden sm:inline">{isAudioPlaying ? "Pause" : "Listen"}</span>
+            </button>
+
             {/* View Mode Toggle (Flip Book vs Scroll) */}
             <div className="flex items-center rounded-lg border border-current/15 bg-black/5 dark:bg-white/5 p-0.5">
               <button
@@ -712,7 +765,7 @@ const BookReader: React.FC = () => {
       </AnimatePresence>
 
       {/* Main Book Reader Container */}
-      <main className="pt-20 pb-20 px-2 sm:px-6 md:px-8 min-h-screen flex flex-col justify-between">
+      <main className="pt-20 pb-36 px-2 sm:px-6 md:px-8 min-h-screen flex flex-col justify-between">
         {/* VIEW MODE 1: 3D PAGE FLIP BOOK MODE */}
         {viewMode === "flip" ? (
           <div className="flex-1 flex flex-col items-center justify-center py-4">
@@ -767,17 +820,38 @@ const BookReader: React.FC = () => {
                           {bookData.series}
                         </span>
                         <h1 className="text-2xl sm:text-3xl font-bold font-serif mb-2">{bookData.title}</h1>
-                        <p className="text-xs italic opacity-70 max-w-md mx-auto">"{bookData.description}"</p>
+                        <p className="text-xs italic opacity-70 max-w-md mx-auto mb-4">"{bookData.description}"</p>
+
+                        <button
+                          onClick={() => {
+                            seekToParagraph(0, 0);
+                          }}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-black text-xs font-bold shadow-md hover:scale-105 transition-all"
+                        >
+                          <Headphones size={14} /> Listen Full Story Narration
+                        </button>
                       </div>
                     )}
 
                     {/* Chapter Title on Page 1 of Chapter */}
                     {currentPageIndex === 0 && (
-                      <div className="mb-8">
-                        <span className="text-xs font-mono uppercase tracking-widest text-amber-500 font-semibold block mb-1">
-                          {currentChapter.number}
-                        </span>
-                        <h2 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight">{currentChapter.title}</h2>
+                      <div className="mb-8 flex items-center justify-between">
+                        <div>
+                          <span className="text-xs font-mono uppercase tracking-widest text-amber-500 font-semibold block mb-1">
+                            {currentChapter.number}
+                          </span>
+                          <h2 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight">{currentChapter.title}</h2>
+                        </div>
+
+                        <button
+                          onClick={() => {
+                            seekToParagraph(currentChapterIndex, 0);
+                          }}
+                          className="p-2.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-black transition-all"
+                          title="Narrate Chapter"
+                        >
+                          <Play size={16} fill="currentColor" />
+                        </button>
                       </div>
                     )}
 
@@ -785,15 +859,23 @@ const BookReader: React.FC = () => {
                     <div className={`space-y-6 ${getFontFamilyClass()}`} style={{ fontSize: `${fontSize}px` }}>
                       {chapterPages[currentPageIndex]?.map((para) => {
                         const isBookmarked = bookmarks.includes(para.id);
+                        const isBeingNarrated = isAudioPlaying && currentChapter.paragraphs[audioParaIdx]?.id === para.id;
 
                         if (para.type === "quote") {
                           return (
                             <blockquote
                               key={para.id}
                               id={para.id}
-                              className="my-6 pl-6 py-2 border-l-4 border-amber-500/80 italic font-serif opacity-95 bg-amber-500/5 rounded-r-lg relative group"
+                              className={`my-6 pl-6 py-2 border-l-4 italic font-serif transition-all rounded-r-lg relative group ${
+                                isBeingNarrated
+                                  ? "bg-amber-500/20 border-amber-500 text-amber-300 font-semibold shadow-md ring-1 ring-amber-500/30"
+                                  : "border-amber-500/80 opacity-95 bg-amber-500/5"
+                              }`}
                             >
-                              <p>{para.text}</p>
+                              <p>
+                                {isBeingNarrated && <Play size={14} className="inline mr-2 text-amber-400 animate-pulse" />}
+                                {para.text}
+                              </p>
                               {para.speaker && (
                                 <cite className="block text-xs font-mono uppercase tracking-widest text-amber-500 mt-2 not-italic font-semibold">
                                   — {para.speaker}
@@ -805,14 +887,34 @@ const BookReader: React.FC = () => {
 
                         if (para.type === "dialogue") {
                           return (
-                            <div key={para.id} id={para.id} className="my-3 pl-3 border-l-2 border-amber-500/30">
-                              <p>{para.text}</p>
+                            <div
+                              key={para.id}
+                              id={para.id}
+                              className={`my-3 pl-3 border-l-2 transition-all ${
+                                isBeingNarrated
+                                  ? "bg-amber-500/20 border-amber-500 text-amber-300 font-semibold p-2 rounded-r-lg shadow-sm"
+                                  : "border-amber-500/30"
+                              }`}
+                            >
+                              <p>
+                                {isBeingNarrated && <Play size={12} className="inline mr-1.5 text-amber-400 animate-pulse" />}
+                                {para.text}
+                              </p>
                             </div>
                           );
                         }
 
                         return (
-                          <p key={para.id} id={para.id} className="leading-relaxed text-justify sm:text-left">
+                          <p
+                            key={para.id}
+                            id={para.id}
+                            className={`leading-relaxed text-justify sm:text-left transition-all ${
+                              isBeingNarrated
+                                ? "bg-amber-500/15 text-amber-200 font-semibold p-3 rounded-lg border-l-4 border-amber-500 shadow-md ring-1 ring-amber-500/20"
+                                : ""
+                            }`}
+                          >
+                            {isBeingNarrated && <Play size={12} className="inline mr-1.5 text-amber-400 animate-pulse" />}
                             {para.text}
                           </p>
                         );
@@ -828,7 +930,6 @@ const BookReader: React.FC = () => {
                 </AnimatePresence>
 
                 {/* Interactive Clickable Page Turn Corners */}
-                {/* Left / Prev Page Corner Peel */}
                 <button
                   onClick={prevPage}
                   className="absolute bottom-0 left-0 w-16 h-16 opacity-0 hover:opacity-100 transition-opacity z-20 group flex items-end justify-start p-2"
@@ -839,7 +940,6 @@ const BookReader: React.FC = () => {
                   </div>
                 </button>
 
-                {/* Right / Next Page Corner Peel */}
                 <button
                   onClick={nextPage}
                   className="absolute bottom-0 right-0 w-16 h-16 opacity-0 hover:opacity-100 transition-opacity z-20 group flex items-end justify-end p-2"
@@ -909,13 +1009,12 @@ const BookReader: React.FC = () => {
                   "{bookData.description}"
                 </p>
 
-                <div className="flex items-center justify-center gap-4 text-xs opacity-60 font-mono">
-                  <span>By {bookData.author}</span>
-                  <span>•</span>
-                  <span>{bookData.publishedYear}</span>
-                  <span>•</span>
-                  <span>{bookData.totalPageCount} Pages</span>
-                </div>
+                <button
+                  onClick={() => seekToParagraph(0, 0)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-black text-xs font-bold shadow-lg shadow-amber-500/20 hover:scale-105 transition-all"
+                >
+                  <Headphones size={15} /> Listen Full Story Narration
+                </button>
               </motion.div>
             )}
 
@@ -936,9 +1035,16 @@ const BookReader: React.FC = () => {
                 {currentChapter.title}
               </h2>
 
-              <p className="text-xs sm:text-sm font-mono opacity-50">
+              <p className="text-xs sm:text-sm font-mono opacity-50 mb-6">
                 Pages {currentChapter.pageStart} – {currentChapter.pageEnd}
               </p>
+
+              <button
+                onClick={() => seekToParagraph(currentChapterIndex, 0)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-black transition-all text-xs font-semibold"
+              >
+                <Play size={13} fill="currentColor" /> Narrate This Chapter
+              </button>
             </motion.div>
 
             {/* Chapter Paragraphs */}
@@ -946,6 +1052,7 @@ const BookReader: React.FC = () => {
               {currentChapter.paragraphs.map((para, idx) => {
                 const isBookmarked = bookmarks.includes(para.id);
                 const isFirstPara = idx === 0;
+                const isBeingNarrated = isAudioPlaying && currentChapter.paragraphs[audioParaIdx]?.id === para.id;
 
                 if (para.type === "quote") {
                   return (
@@ -955,9 +1062,16 @@ const BookReader: React.FC = () => {
                       initial={{ opacity: 0, x: -10 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      className="relative my-8 pl-6 sm:pl-8 py-3 border-l-4 border-amber-500/80 italic font-serif opacity-95 bg-amber-500/5 rounded-r-xl group"
+                      className={`relative my-8 pl-6 sm:pl-8 py-3 border-l-4 italic font-serif transition-all rounded-r-xl group ${
+                        isBeingNarrated
+                          ? "bg-amber-500/20 border-amber-500 text-amber-300 font-semibold shadow-lg ring-1 ring-amber-500/30"
+                          : "border-amber-500/80 opacity-95 bg-amber-500/5"
+                      }`}
                     >
-                      <p className="text-lg sm:text-xl leading-relaxed">{para.text}</p>
+                      <p className="text-lg sm:text-xl leading-relaxed">
+                        {isBeingNarrated && <Play size={16} className="inline mr-2 text-amber-400 animate-pulse" />}
+                        {para.text}
+                      </p>
                       {para.speaker && (
                         <cite className="block text-xs font-mono uppercase tracking-widest text-amber-500 mt-2 not-italic font-semibold">
                           — {para.speaker}
@@ -976,8 +1090,19 @@ const BookReader: React.FC = () => {
 
                 if (para.type === "dialogue") {
                   return (
-                    <div key={para.id} id={para.id} className="relative group my-4 pl-3 border-l-2 border-amber-500/30">
-                      <p className="leading-relaxed opacity-95">{para.text}</p>
+                    <div
+                      key={para.id}
+                      id={para.id}
+                      className={`relative group my-4 pl-3 border-l-2 transition-all ${
+                        isBeingNarrated
+                          ? "bg-amber-500/20 border-amber-500 text-amber-300 font-semibold p-3 rounded-r-lg shadow-md"
+                          : "border-amber-500/30"
+                      }`}
+                    >
+                      <p className="leading-relaxed opacity-95">
+                        {isBeingNarrated && <Play size={13} className="inline mr-2 text-amber-400 animate-pulse" />}
+                        {para.text}
+                      </p>
                       <button
                         onClick={() => toggleBookmark(para.id)}
                         className="absolute top-0 right-0 p-1 opacity-0 group-hover:opacity-100 transition-opacity text-amber-400"
@@ -991,7 +1116,12 @@ const BookReader: React.FC = () => {
 
                 return (
                   <div key={para.id} id={para.id} className="relative group">
-                    <p className={`leading-relaxed text-justify sm:text-left ${isFirstPara ? "first-letter:float-left first-letter:text-5xl sm:first-letter:text-6xl first-letter:font-bold first-letter:font-serif first-letter:mr-3 first-letter:mt-1 first-letter:text-amber-500" : ""}`}>
+                    <p
+                      className={`leading-relaxed text-justify sm:text-left transition-all ${
+                        isBeingNarrated ? "bg-amber-500/15 text-amber-200 font-semibold p-4 rounded-xl border-l-4 border-amber-500 shadow-lg ring-1 ring-amber-500/20" : ""
+                      } ${isFirstPara && !isBeingNarrated ? "first-letter:float-left first-letter:text-5xl sm:first-letter:text-6xl first-letter:font-bold first-letter:font-serif first-letter:mr-3 first-letter:mt-1 first-letter:text-amber-500" : ""}`}
+                    >
+                      {isBeingNarrated && <Play size={14} className="inline mr-2 text-amber-400 animate-pulse" />}
                       {para.text}
                     </p>
                     <button
