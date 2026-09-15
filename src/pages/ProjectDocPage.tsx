@@ -504,11 +504,13 @@ export const ProjectDocPage: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {doc.metricsAndExperiments.experiments.map((exp) => (
                       <div key={exp.id} className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 space-y-4">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-mono font-bold text-accent bg-accent/10 px-2.5 py-1 rounded border border-accent/20">
+                        <div className="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+                          <span className="shrink-0 whitespace-nowrap text-xs font-mono font-bold text-accent bg-accent/10 px-2.5 py-1 rounded border border-accent/20">
                             {exp.id}
                           </span>
-                          <span className="text-xs font-mono text-emerald-400 font-bold">{exp.expectedLift}</span>
+                          <span className="shrink-0 whitespace-nowrap text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                            {exp.expectedLift}
+                          </span>
                         </div>
 
                         <h4 className="text-sm font-bold text-white">{exp.title}</h4>
