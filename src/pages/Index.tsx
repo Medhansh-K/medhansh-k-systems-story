@@ -1,4 +1,4 @@
-import { ModeProvider, useMode } from "@/contexts/ModeContext";
+import { useMode } from "@/contexts/ModeContext";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -49,10 +49,6 @@ const PortfolioContent = () => {
   );
 };
 
-const Index = () => (
-  <ModeProvider>
-    <PortfolioContent />
-  </ModeProvider>
-);
+const Index = () => <PortfolioContent />;
 
 export default Index;

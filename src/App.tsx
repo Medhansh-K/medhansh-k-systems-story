@@ -6,8 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import BookReader from "./pages/BookReader";
 import BloomNetPaper from "./pages/BloomNetPaper";
+import ProjectDocPage from "./pages/ProjectDocPage";
 import NotFound from "./pages/NotFound";
 import { AudiobookProvider } from "@/contexts/AudiobookContext";
+import { ModeProvider } from "@/contexts/ModeContext";
 import { SpotifyAudioPlayer } from "@/components/SpotifyAudioPlayer";
 
 const queryClient = new QueryClient();
@@ -15,21 +17,24 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AudiobookProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/book" element={<BookReader />} />
-            <Route path="/book/:chapterId" element={<BookReader />} />
-            <Route path="/bloomnet" element={<BloomNetPaper />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <SpotifyAudioPlayer />
-        </BrowserRouter>
-      </AudiobookProvider>
+      <ModeProvider>
+        <AudiobookProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/book" element={<BookReader />} />
+              <Route path="/book/:chapterId" element={<BookReader />} />
+              <Route path="/bloomnet" element={<BloomNetPaper />} />
+              <Route path="/project/:projectId" element={<ProjectDocPage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <SpotifyAudioPlayer />
+          </BrowserRouter>
+        </AudiobookProvider>
+      </ModeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

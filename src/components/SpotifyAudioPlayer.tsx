@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
+import { useMode } from "@/contexts/ModeContext";
 import {
   Play,
   Pause,
@@ -24,8 +26,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Slider } from "@/components/ui/slider";
 
 export const SpotifyAudioPlayer: React.FC = () => {
+  const { mode } = useMode();
+  const location = useLocation();
+  const isBookRoute = location.pathname.startsWith("/book");
+
   const {
     isPlaying,
+    pause,
     currentChapterIndex,
     currentParagraphIndex,
     playbackRate,
@@ -49,8 +56,36 @@ export const SpotifyAudioPlayer: React.FC = () => {
   } = useAudiobook();
 
   const [showTracklist, setShowTracklist] = useState(false);
+  const [isClosed, setIsClosed] = useState(false);
+
+  // If in systems mode on main portfolio, automatically pause speech
+  useEffect(() => {
+    if (mode === "systems" && !isBookRoute) {
+      if (isPlaying) {
+        pause();
+      }
+    }
+  }, [mode, isBookRoute, isPlaying, pause]);
+
+  // Reset closed state when switching to creative mode or when user starts playback
+  useEffect(() => {
+    if (mode === "creative" || isBookRoute) {
+      setIsClosed(false);
+    }
+  }, [mode, isBookRoute]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      setIsClosed(false);
+    }
+  }, [isPlaying]);
 
   const progressPercent = totalParagraphsInChapter > 0 ? ((currentParagraphIndex + 1) / totalParagraphsInChapter) * 100 : 0;
+
+  // Do not show audio player in systems mode unless user is on the book reader route, or if closed by user
+  if ((mode === "systems" && !isBookRoute) || isClosed) {
+    return null;
+  }
 
   return (
     <>
@@ -219,6 +254,18 @@ export const SpotifyAudioPlayer: React.FC = () => {
             {/* Fullscreen Expand */}
             <button onClick={toggleExpand} className="p-2 text-zinc-400 hover:text-white rounded-lg transition-colors" title="Expand Player">
               <Maximize2 size={18} />
+            </button>
+
+            {/* Close Player */}
+            <button
+              onClick={() => {
+                if (isPlaying) pause();
+                setIsClosed(true);
+              }}
+              className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800/80 rounded-lg transition-colors"
+              title="Close Player"
+            >
+              <X size={18} />
             </button>
           </div>
         </div>

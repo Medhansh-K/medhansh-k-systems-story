@@ -11,6 +11,7 @@ const projects = [
     idea: "Empowering businesses with an intelligent AI workspace for automated financial workflows and insights.",
     stack: ["AI Systems", "FinTech", "Data Intelligence", "Automation"],
     link: "https://www.datalis.in",
+    docLink: "/project/dabby",
     isExternal: true,
   },
   {
@@ -19,6 +20,7 @@ const projects = [
     idea: "Elevating living spaces with premium outdoor structural design and modern engineering.",
     stack: ["Architecture", "Outdoor Design", "Full-Stack", "Web Platform"],
     link: "https://www.archzonestructures.com",
+    docLink: "/project/archzone",
     isExternal: true,
   },
   {
@@ -111,21 +113,27 @@ const Projects = () => {
                       </a>
                     )}
                   </div>
-                ) : project.link ? (
-                  <div className="flex gap-3">
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs font-display text-accent border border-accent/30 px-4 py-2 rounded-md hover:bg-accent/10 transition-colors font-medium"
-                    >
-                      Visit Website <ExternalLink size={12} />
-                    </a>
-                  </div>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-display text-muted-foreground border border-border px-4 py-2 rounded-md">
-                    Research Prototype
-                  </span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {project.docLink && (
+                      <Link
+                        to={project.docLink}
+                        className="inline-flex items-center gap-1.5 text-xs font-display text-primary-foreground bg-accent hover:bg-accent/90 px-3.5 py-2 rounded-md transition-all font-semibold shadow-md"
+                      >
+                        <FileText size={13} /> Product Docs
+                      </Link>
+                    )}
+                    {project.link && (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-display text-accent border border-accent/30 px-3.5 py-2 rounded-md hover:bg-accent/10 transition-colors font-medium"
+                      >
+                        Visit Website <ExternalLink size={12} />
+                      </a>
+                    )}
+                  </div>
                 )}
               </div>
             </motion.div>
