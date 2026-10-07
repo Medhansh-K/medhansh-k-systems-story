@@ -75,6 +75,19 @@ const BloomNetPaper: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            {paper.ieeeUrl && (
+              <a
+                href={paper.ieeeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg transition-all shadow-md shadow-blue-600/20"
+                title="View on IEEE Xplore"
+              >
+                <ExternalLink size={13} />
+                <span className="hidden sm:inline">IEEE Xplore</span>
+              </a>
+            )}
+
             <a
               href={paper.pdfUrl}
               download
@@ -103,11 +116,24 @@ const BloomNetPaper: React.FC = () => {
       <main className="pt-24 pb-32 container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
         {/* Paper Header / Hero Banner */}
         <div className="border-b border-zinc-800 pb-10 mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-xs font-mono uppercase tracking-widest text-amber-400 bg-amber-500/10 px-3 py-1 rounded-md border border-amber-500/30 font-semibold">
-              IEEE Research Publication
-            </span>
-            <span className="text-xs font-mono text-zinc-500">• {paper.publication}</span>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono uppercase tracking-widest text-amber-400 bg-amber-500/10 px-3 py-1 rounded-md border border-amber-500/30 font-semibold">
+                IEEE Research Publication
+              </span>
+              <span className="text-xs font-mono text-zinc-500">• {paper.publication}</span>
+            </div>
+
+            {paper.ieeeUrl && (
+              <a
+                href={paper.ieeeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg border border-blue-500/30 transition-colors"
+              >
+                IEEE Xplore Record: #11709777 <ExternalLink size={12} />
+              </a>
+            )}
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white font-serif tracking-tight leading-tight mb-6">

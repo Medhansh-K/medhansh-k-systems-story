@@ -31,6 +31,7 @@ const projects = [
     stack: ["IEEE 2026", "Distributed Systems", "MinIO", "Tailscale", "FastAPI"],
     link: "/bloomnet",
     pdfLink: "/bloomnet-paper.pdf",
+    ieeeLink: "https://ieeexplore.ieee.org/document/11709777",
     isPaper: true,
   },
 ];
@@ -102,6 +103,17 @@ const Projects = () => {
                     >
                       <FileText size={13} /> Read Paper
                     </Link>
+                    {project.ieeeLink && (
+                      <a
+                        href={project.ieeeLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-display text-blue-400 border border-blue-500/40 px-3 py-2 rounded-md hover:bg-blue-500/10 transition-colors font-medium"
+                        title="View on IEEE Xplore"
+                      >
+                        IEEE Xplore <ExternalLink size={12} />
+                      </a>
+                    )}
                     {project.pdfLink && (
                       <a
                         href={project.pdfLink}

@@ -37,6 +37,7 @@ export interface ResearchPaper {
   tables: PaperTable[];
   references: string[];
   pdfUrl: string;
+  ieeeUrl: string;
 }
 
 export const bloomnetPaperData: ResearchPaper = {
@@ -46,6 +47,7 @@ export const bloomnetPaperData: ResearchPaper = {
   publisher: "IEEE",
   year: 2026,
   pdfUrl: "/bloomnet-paper.pdf",
+  ieeeUrl: "https://ieeexplore.ieee.org/document/11709777",
   authors: [
     {
       name: "Rishabh Soni",
