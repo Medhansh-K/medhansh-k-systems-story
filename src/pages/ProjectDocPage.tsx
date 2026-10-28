@@ -21,6 +21,7 @@ import {
   Compass,
   AlertTriangle,
   Lightbulb,
+  Clock,
 } from "lucide-react";
 import { projectDocsData } from "@/data/projectDocsData";
 import { toast } from "sonner";
@@ -72,8 +73,15 @@ export const ProjectDocPage: React.FC = () => {
 
             <span className="h-4 w-px bg-zinc-800 hidden sm:block" />
 
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-xs font-mono font-semibold">
-              <Sparkles size={11} /> {doc.badge}
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-xs font-mono font-semibold">
+              {doc.badge === "Demo Deployed" ? (
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              ) : doc.badge === "Coming Soon" ? (
+                <Clock size={11} />
+              ) : (
+                <Sparkles size={11} />
+              )}
+              {doc.badge}
             </span>
           </div>
 
@@ -82,15 +90,24 @@ export const ProjectDocPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <a
-              href={doc.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold bg-accent hover:bg-accent/90 text-primary-foreground px-3.5 py-1.5 rounded-lg transition-all shadow-md shadow-accent/10"
-            >
-              <ExternalLink size={14} />
-              <span className="hidden sm:inline">Visit Live Site</span>
-            </a>
+            {doc.websiteUrl ? (
+              <a
+                href={doc.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold bg-accent hover:bg-accent/90 text-primary-foreground px-3.5 py-1.5 rounded-lg transition-all shadow-md shadow-accent/10"
+              >
+                <ExternalLink size={14} />
+                <span className="hidden sm:inline">
+                  {doc.badge === "Demo Deployed" ? "Live Demo" : "Visit Live Site"}
+                </span>
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-zinc-800 text-zinc-400 px-3 py-1.5 rounded-lg border border-zinc-700/60">
+                <Clock size={13} />
+                <span className="hidden sm:inline">Coming Soon</span>
+              </span>
+            )}
 
             <button onClick={handleShare} className="p-2 rounded-lg hover:bg-white/10 transition-colors text-zinc-300" title="Share Documentation">
               <Share2 size={18} />
